@@ -13,7 +13,7 @@ var styles = React.StyleSheet.create({
 
 class PropertyFinderApp extends React.Component {
   render() {
-    return React.createElement(React.Text, {style: styles.text}, "Hey, world!");
+    return <React.Text style={styles.text}>Hello World (Again)</React.Text>;
   }
 }
 
