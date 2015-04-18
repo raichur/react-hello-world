@@ -33,7 +33,7 @@ var styles = StyleSheet.create({
   },
   description: {
     fontSize: 18,
-    marginL 5,
+    margin: 5,
     color: '#656565'
   }
 });
