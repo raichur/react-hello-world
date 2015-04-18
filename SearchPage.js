@@ -64,16 +64,51 @@ var styles = StyleSheet.create({
   }
 });
 
+function urlForQueryAndPage(key, value, pageNumber) {
+  var data = {
+    country: 'uk',
+    pretty: '1',
+    encoding: 'json',
+    listing_type: 'buy',
+    action: 'search_listings',
+    page: pageNumber
+  };
+  data[key] = value;
+
+  var queryString = Object.keys(data)
+  .map(key => key + '=' + encodeURIComponent(data[key]))
+  .join('&');
+
+  return 'http://api.nestoria.co.uk/api?' + queryString;
+}
+
 class SearchPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       searchString: 'london',
-      isLoading: false
+      isLoading: false,
+      message: ''
     };
   }
 
-  
+  _executeQuery(query) {
+    console.log(query);
+    this.setState({ isLoading: true });
+    fetch(query)
+      .then(response => response.json())
+      .then(json => this._handleResponse(join.response))
+      .catch(error =>
+        this.setState({
+          isLoading: false,
+          message: 'Something bad happened ' + error;
+        }));
+  }
+
+  onSearchPressed() {
+    var query = urlForQueryAndPage('place_name', this.state.searchString, 1);
+    this._executeQuery(query);
+  }
 
   onSearchTextChanged(event) {
     console.log('onSearchTextChanged');
@@ -85,7 +120,7 @@ class SearchPage extends Component {
 
     var spinner = this.state.isLoading ?
       ( <ActivityIndicatorIOS
-          hidden: 'true'
+          hidden='true'
           size='large' /> ) :
           (<View/>); // That's weird
 
@@ -105,7 +140,7 @@ class SearchPage extends Component {
             onChange={this.onSearchTextChanged.bind(this)}
             placeholder='Search via name or postcode'/>
             <TouchableHighlight style={styles.button}
-            onPress={this.onSeachPressed.bind(this)}
+            onPress={this.onSearchPressed.bind(this)}
               underlayColor='#99d9f4'>
               <Text style={styles.buttonText}>Go</Text>
             </TouchableHighlight>
@@ -116,6 +151,7 @@ class SearchPage extends Component {
           </TouchableHighlight>
           {spinner}
           <Image source={require('image!house')} style={styles.image}/>
+          <text style={styles.description}>{this.state.message}</Text>
       </View>
     );
   }
