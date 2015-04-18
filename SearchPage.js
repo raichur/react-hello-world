@@ -65,6 +65,7 @@ var styles = StyleSheet.create({
 });
 
 function urlForQueryAndPage(key, value, pageNumber) {
+
   var data = {
     country: 'uk',
     pretty: '1',
@@ -80,9 +81,11 @@ function urlForQueryAndPage(key, value, pageNumber) {
   .join('&');
 
   return 'http://api.nestoria.co.uk/api?' + queryString;
+
 }
 
 class SearchPage extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -125,6 +128,7 @@ class SearchPage extends Component {
           (<View/>); // That's weird
 
     console.log('SearchPage.render');
+    
     return ( // JSX is crazy ... awesome
       <View style={styles.container}>
           <Text style={styles.description}>
