@@ -101,7 +101,7 @@ class SearchPage extends Component {
       .catch(error =>
         this.setState({
           isLoading: false,
-          message: 'Something bad happened ' + error;
+          message: 'Something bad happened ' + error
         }));
   }
 
@@ -151,7 +151,7 @@ class SearchPage extends Component {
           </TouchableHighlight>
           {spinner}
           <Image source={require('image!house')} style={styles.image}/>
-          <text style={styles.description}>{this.state.message}</Text>
+          <Text style={styles.description}>{this.state.message}</Text>
       </View>
     );
   }
