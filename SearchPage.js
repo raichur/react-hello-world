@@ -68,9 +68,12 @@ class SearchPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchString: 'london'
+      searchString: 'london',
+      isLoading: false
     };
   }
+
+  
 
   onSearchTextChanged(event) {
     console.log('onSearchTextChanged');
@@ -79,6 +82,13 @@ class SearchPage extends Component {
   }
 
   render() {
+
+    var spinner = this.state.isLoading ?
+      ( <ActivityIndicatorIOS
+          hidden: 'true'
+          size='large' /> ) :
+          (<View/>); // That's weird
+
     console.log('SearchPage.render');
     return ( // JSX is crazy ... awesome
       <View style={styles.container}>
@@ -95,6 +105,7 @@ class SearchPage extends Component {
             onChange={this.onSearchTextChanged.bind(this)}
             placeholder='Search via name or postcode'/>
             <TouchableHighlight style={styles.button}
+            onPress={this.onSeachPressed.bind(this)}
               underlayColor='#99d9f4'>
               <Text style={styles.buttonText}>Go</Text>
             </TouchableHighlight>
@@ -103,6 +114,7 @@ class SearchPage extends Component {
           underlayColor='#99d9f4'>
             <Text style={styles.buttonText}>Location</Text>
           </TouchableHighlight>
+          {spinner}
           <Image source={require('image!house')} style={styles.image}/>
       </View>
     );
