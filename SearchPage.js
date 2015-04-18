@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react-native'),
+  SearchResults = require('./SearchResults');
 
 var { // Destructing assignment that lets you extract multiple object properties and assign them to variables using a single statement. No more React.StyleSheet, etc.
   StyleSheet,
@@ -108,6 +109,19 @@ class SearchPage extends Component {
         }));
   }
 
+  _handleResponse(response) {
+    this.setState({ isLoading: false, message: '' });
+    if(response.application_response_code.substr(0,1) === '1') {
+      this.props.navigator.push({
+        title: 'Results',
+        component: SearchResults,
+        passProps: {listings: response.listings}
+      });
+    } else {
+      this.setState({ message: 'Location not recognized; please try again. '});
+    }
+  }
+
   onSearchPressed() {
     var query = urlForQueryAndPage('place_name', this.state.searchString, 1);
     this._executeQuery(query);
@@ -128,7 +142,7 @@ class SearchPage extends Component {
           (<View/>); // That's weird
 
     console.log('SearchPage.render');
-    
+
     return ( // JSX is crazy ... awesome
       <View style={styles.container}>
           <Text style={styles.description}>
