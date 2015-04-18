@@ -52,6 +52,10 @@ class SearchResults extends Component {
       };
   }
 
+  rowPressed(propertyGuid) {
+    var property = this.props.listings.filter(prop => prop.guid === propertyGuid)[0];
+  }
+
   renderRow(rowData, sectionId, rowID) {
     var price = rowData.price_formatted.split(' ')[0];
 
