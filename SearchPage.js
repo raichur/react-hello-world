@@ -101,7 +101,7 @@ class SearchPage extends Component {
     this.setState({ isLoading: true });
     fetch(query)
       .then(response => response.json())
-      .then(json => this._handleResponse(join.response))
+      .then(json => this._handleResponse(json.response))
       .catch(error =>
         this.setState({
           isLoading: false,
@@ -110,8 +110,8 @@ class SearchPage extends Component {
   }
 
   _handleResponse(response) {
-    this.setState({ isLoading: false, message: '' });
-    if(response.application_response_code.substr(0,1) === '1') {
+    this.setState({ isLoading: false , message: '' });
+    if (response.application_response_code.substr(0, 1) === '1') {
       this.props.navigator.push({
         title: 'Results',
         component: SearchResults,
